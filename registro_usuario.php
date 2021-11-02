@@ -3,18 +3,20 @@ session_start();
 error_reporting(0);
 include('includes/dbconnection.php');
 
-if(isset($_POST['login']))
+if(isset($_POST['submit']))
   {
-    $adminuser=$_POST['username'];
-    $password=md5($_POST['password']);
-    $query=mysqli_query($con,"select ID from tbladmin where  UserName='$adminuser' && Password='$password' ");
+    $contactno=$_POST['contactno'];
+    $email=$_POST['email'];
+
+        $query=mysqli_query($con,"select ID from tbladmin where  Email='$email' and MobileNumber='$contactno' ");
     $ret=mysqli_fetch_array($query);
     if($ret>0){
-      $_SESSION['vpmsaid']=$ret['ID'];
-     header('location:dashboard.php');
+      $_SESSION['contactno']=$contactno;
+      $_SESSION['email']=$email;
+     header('location:reset-password.php');
     }
     else{
-    $msg="Invalid Details.";
+      $msg="Invalid Details. Please try again.";
     }
   }
   ?>
@@ -22,7 +24,7 @@ if(isset($_POST['login']))
  <html class="no-js" lang="">
 <head>
     
-    <title>VPMS-Página de inicio de sesión</title>
+    <title>VPMS-Registro</title>
    
 
     <link rel="apple-touch-icon" href="https://i.imgur.com/QRAUqs9.png">
@@ -48,7 +50,7 @@ if(isset($_POST['login']))
             <div class="login-content">
                 <div class="login-logo">
                     <a href="index.php">
-                        <h2 style="color: #fff">Sistema de gestión de aparcamiento de vehículos</h2>
+                         <h2 style="color: green">Sistema de gestión de aparcamiento de vehículos</h2>
                     </a>
                 </div>
                 <div class="login-form">
@@ -57,30 +59,38 @@ if(isset($_POST['login']))
     echo $msg;
   }  ?> </p>
                         <div class="form-group">
-                            <label>Nombre de usuario</label>
-                           <input class="form-control" type="text" placeholder="Nombre de usuario" required="true" name="username">
+                            <label>Nombre</label>
+                           <input type="text" class="form-control" name="email" placeholder="Ingresa tu nombre completo" autofocus required="true">
                         </div>
                         <div class="form-group">
-                            <label>Contraseña</label>
-                            <input type="password" class="form-control" name="password" placeholder="Contraseña" required="true">
+                            <label>Numero de documento</label>
+                           <input type="text" class="form-control" name="email" placeholder="documento de identidad" autofocus required="true">
+                        </div>
+                        <div class="form-group">
+                            <label>direccion</label>
+                           <input type="text" class="form-control" name="email" placeholder="Ingresa tu direccion" autofocus required="true">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Número de móvil</label>
+                            <input type="text" class="form-control" name="contactno" placeholder="Ingresa tu Número de móvil" required="true">
+                        </div>
+                        <div class="form-group">
+                            <label>firma</label>
+                           <input type="text" class="form-control" name="email" placeholder="Ingresa tu firma" autofocus required="true">
+                        </div>
+                        <div class="form-group">
+                            <label>Correo electronico</label>
+                           <input type="text" class="form-control" name="email" placeholder="Ingresa tu correo electronico" autofocus required="true">
                         </div>
                         <div class="checkbox">
                             
                             <label class="pull-right">
-                                <a href="forgot-password.php">¿Ha olvidado su contraseña?</a>
-
+                                <a href="index.php">Iniciar sesión</a>
                             </label>
 
                         </div>
-                        <div class="checkbox">
-                            
-                            <label class="pull-left">
-                                <a href="registro_usuario.php">registrar</a>
-
-                            </label>
-
-                        </div>
-                        <button type="submit" name="login" class="btn btn-success btn-flat m-b-30 m-t-30">Iniciar sesión</button>
+                        <button type="submit" name="submit" class="btn btn-success btn-flat m-b-30 m-t-30">Registrar</button>
                        
                        
                     </form>
